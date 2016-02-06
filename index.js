@@ -30,13 +30,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/play_ethor', function(req, res) {
   if (player) {
-    player.kill();
+    process.kill(-player.pid);
+    player = null;
   }
 
   var stream_name = req.body.ethor_stream_name;
   currently_playing.set(stream_name);
 
-  player = spawn('omxplayer', ['-o', 'hdmi', 'rtmp://marcus.ethor.net:443/live/live' + stream_name]);
+  player = spawn('omxplayer', ['-o', 'hdmi', 'rtmp://marcus.ethor.net:443/live/live' + stream_name], {detached: true});
 
   player.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
@@ -59,7 +60,8 @@ app.post('/play_ethor', function(req, res) {
 
 app.post('/play_twitch', function(req, res) {
   if (player) {
-    player.kill();
+    process.kill(-player.pid);
+    player = null;
   }
 
   var stream_name = req.body.twitch_stream_name;
@@ -68,7 +70,7 @@ app.post('/play_twitch', function(req, res) {
   var args = ['twitch.tv/' + stream_name, 'best', '-np', 'omxplayer -o hdmi'];
   console.log('starting the stream: ' + args.join(' '));
 
-  player = spawn('livestreamer', args);
+  player = spawn('livestreamer', args, {detached: true});
 
   player.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
@@ -91,7 +93,8 @@ app.post('/play_twitch', function(req, res) {
 
 app.post('/stop_stream', function(req, res) {
   if (player) {
-    player.kill();
+    process.kill(-player.pid);
+    player = null;
   }
 
   currently_playing.unset();
