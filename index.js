@@ -1,4 +1,4 @@
-#!/env/node
+#!/usr/bin/env node
 
 CURRENTLY_PLAYING_FILE = "/tmp/.current_playing";
 
