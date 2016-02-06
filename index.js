@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-CURRENTLY_PLAYING_FILE = ".current_playing";
+CURRENTLY_PLAYING_FILE = "/tmp/.current_playing";
 
 var express = require('express');
 var bodyParser = require('body-parser');
