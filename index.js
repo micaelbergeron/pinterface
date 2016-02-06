@@ -34,7 +34,25 @@ app.post('/play_ethor', function(req, res) {
 
   var stream_name = req.body.ethor_stream_name;
   currently_playing.set(stream_name);
-  player = spawn('omxplayer', ['-0', 'hdmi', 'rtmp://marcus.ethor.net:443/live/live' + stream_name]);
+
+  player = spawn('omxplayer', ['-o', 'hdmi', 'rtmp://marcus.ethor.net:443/live/live' + stream_name]);
+
+  player.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  player.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+
+  player.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+
+  player.on('error', (err) => {
+    console.log('Failed to start child process. ' + err);
+  });
+
   res.redirect(301, '/');
 });
 
@@ -45,7 +63,25 @@ app.post('/play_twitch', function(req, res) {
 
   var stream_name = req.body.twitch_stream_name;
   currently_playing.set(stream_name);
+
   player = spawn('livestreamer', ['twitch.tv/' + stream_name, 'best', '-np', '"omxplayer -o hdmi"']);
+
+  player.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  player.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+
+  player.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+
+  player.on('error', (err) => {
+    console.log('Failed to start child process. ' + err);
+  });
+
   res.redirect(301, '/');
 });
 
