@@ -15,7 +15,7 @@ app.post('/play_ethor', function(req, res) {
 		player.kill();
 	}
 
-    player = spawn('vlc', ['rtmp://marcus.ethor.net:443/live/live' + req.body.ethor_stream_name]);
+    player = spawn('omxplayer', ['-0', 'hdmi', 'rtmp://marcus.ethor.net:443/live/live' + req.body.ethor_stream_name]);
     res.redirect(301, '/');
 });
 
@@ -24,7 +24,7 @@ app.post('/play_twitch', function(req, res) {
 		player.kill();
 	}
 
-    player = spawn('livestreamer', ['twitch.tv/' + req.body.twitch_stream_name, 'best', '-np', '"vlc"']);
+    player = spawn('livestreamer', ['twitch.tv/' + req.body.twitch_stream_name, 'best', '-np', '"omxplayer -o hdmi"']);
     res.redirect(301, '/');
 });
 
