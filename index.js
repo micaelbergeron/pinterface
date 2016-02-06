@@ -24,15 +24,26 @@ var currently_playing = {
   }
 }
 
+var player_operation = {
+  kill: function() {
+    if (player) {
+    try {
+      process.kill(-player.pid);
+    } catch (ex) {
+      console.log(ex);
+    }
+
+    player = null;
+  }
+  }
+}
+
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views'); 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/play_ethor', function(req, res) {
-  if (player) {
-    process.kill(-player.pid);
-    player = null;
-  }
+  player_operation.kill();
 
   var stream_name = req.body.ethor_stream_name;
   currently_playing.set(stream_name);
@@ -59,10 +70,7 @@ app.post('/play_ethor', function(req, res) {
 });
 
 app.post('/play_twitch', function(req, res) {
-  if (player) {
-    process.kill(-player.pid);
-    player = null;
-  }
+  player_operation.kill();
 
   var stream_name = req.body.twitch_stream_name;
   currently_playing.set(stream_name);
@@ -92,11 +100,7 @@ app.post('/play_twitch', function(req, res) {
 });
 
 app.post('/stop_stream', function(req, res) {
-  if (player) {
-    process.kill(-player.pid);
-    player = null;
-  }
-
+  player_operation.kill();
   currently_playing.unset();
   res.redirect(301, '/');
 });
