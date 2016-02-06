@@ -1,6 +1,6 @@
 {
   "name": "pinterface",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple HTTP interface to OMXPlayer.",
   "main": "index.js",
   "scripts": {
