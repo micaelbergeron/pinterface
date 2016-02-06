@@ -5,13 +5,34 @@ var bodyParser = require('body-parser');
 var spawn = require('child_process').spawn;
 var app = express();
 
-twitch_urls = ["arteezy", "joindota"];
+var player;
 
 app.set('view engine', 'jade');
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.post('/play', function(req, res) {
-    spawn('touch', [req.body.stream]);
+app.post('/play_ethor', function(req, res) {
+	if (player) {
+		player.kill();
+	}
+
+    player = spawn('vlc', ['rtmp://marcus.ethor.net:443/live/live' + req.body.ethor_stream_name]);
+    res.redirect(301, '/');
+});
+
+app.post('/play_twitch', function(req, res) {
+	if (player) {
+		player.kill();
+	}
+
+    player = spawn('livestreamer', ['twitch.tv/' + req.body.twitch_stream_name, 'best', '-np', '"vlc"']);
+    res.redirect(301, '/');
+});
+
+app.post('/stop_stream', function(req, res) {
+	if (player) {
+		player.kill();
+	}
+
     res.redirect(301, '/');
 });
 

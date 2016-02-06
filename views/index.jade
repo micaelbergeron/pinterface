@@ -1,6 +1,26 @@
 html
-  body
-    p Hello World test!
-    form(action='/play', method='post')
-      input(type='text', name='stream', value='123')
-      button Click here!
+	body
+		p Ethor Streams
+
+		form(action='/play_ethor', method='post')
+		
+			- list = ["Stupefiants", "Stargate", "Humour", "CameraCafe", "Futurama", "SouthPark", "Startrek", "BigBangTheory", "Bougon", "RadioEnfer", "House", "Simpson"]
+			select(name='ethor_stream_name')
+				each item, i in list
+					option(value=item) #{item}
+
+			br
+
+			button Start Ethor Stream
+
+		p Twitch Streams
+
+		form(action='/play_twitch', method='post')
+
+			input(input='text', name='twitch_stream_name')
+			br
+			button Start Twitch Stream
+
+		form(action='/stop_stream', method='post')
+			button Stop Current Stream
+
