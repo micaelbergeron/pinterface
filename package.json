@@ -4,7 +4,8 @@
   "description": "A simple HTTP interface to OMXPlayer.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postversion": "git push && git push --tags && rm -rf build/temp"
   },
   "license": "MIT",
   "bin": "./index.js",
