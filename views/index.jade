@@ -6,29 +6,34 @@ style.
 html
   head
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
   body
     div(class='container')
       if currently_playing
+        i.fa.fa-2x.fa-toggle-on.pull-left
         h3.text-center Currently playing: #{currently_playing}
+        hr
         br
 
       form(action='/play_ethor', method='post')
         div(class='form-group')
+          i.fa.fa-2x.fa-tv.pull-left
           h3(align='center') Ethor Streams
           select(class='form-control', name='ethor_stream_name')
             each item, i in list
               option(value=item) #{item}
           br
-          button(class='btn btn-block') Start Ethor Stream
+          button(class='btn btn-block text-success'): i.fa.fa-2x.fa-play
 
       form(action='/play_twitch', method='post')
         div(class='form-group')
+          i.fa.fa-2x.fa-twitch.pull-left
           h3(align='center') Twitch Streams
           input(class='form-control', input='text', name='twitch_stream_name')
           br
-          button(class='btn btn-block') Start Twitch Stream
+          button(class='btn btn-block text-success'): i.fa.fa-2x.fa-play
 
       form(action='/stop_stream', method='post')
         div(class='form-group')
-          button(class='btn btn-block') Stop Current Stream
+          button(class='btn btn-block text-danger'): i.fa.fa-2x.fa-stop
