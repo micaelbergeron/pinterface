@@ -1,20 +1,34 @@
 - list = ["Stupefiants", "Stargate", "Humour", "CameraCafe", "Futurama", "SouthPark", "Startrek", "BigBangTheory", "Bougon", "RadioEnfer", "House", "Simpson"]
 
+style.
+  body { padding-top: 3em; }
+
 html
+  head
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
   body
-  if currently_playing
-    h3 Currently playing: #{currently_playing}
-  p Ethor Streams
+    div(class='container')
+      if currently_playing
+        h3.text-center Currently playing: #{currently_playing}
+        br
 
-  form(action='/play_ethor', method='post')
-    select(name='ethor_stream_name')
-      each item, i in list
-        option(value=item) #{item}
-    button Start Ethor Stream
-    p Twitch Streams
-  form(action='/play_twitch', method='post')
-    input(input='text', name='twitch_stream_name')
-    button Start Twitch Stream
+      form(action='/play_ethor', method='post')
+        div(class='form-group')
+          h3(align='center') Ethor Streams
+          select(class='form-control', name='ethor_stream_name')
+            each item, i in list
+              option(value=item) #{item}
+          br
+          button(class='btn btn-block') Start Ethor Stream
 
-  form(action='/stop_stream', method='post')
-    button Stop Current Stream
+      form(action='/play_twitch', method='post')
+        div(class='form-group')
+          h3(align='center') Twitch Streams
+          input(class='form-control', input='text', name='twitch_stream_name')
+          br
+          button(class='btn btn-block') Start Twitch Stream
+
+      form(action='/stop_stream', method='post')
+        div(class='form-group')
+          button(class='btn btn-block') Stop Current Stream

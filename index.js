@@ -34,7 +34,7 @@ app.post('/play_ethor', function(req, res) {
 
   var stream_name = req.body.ethor_stream_name;
   currently_playing.set(stream_name);
-  player = spawn('vlc', ['rtmp://marcus.ethor.net:443/live/live' + stream_name]);
+  player = spawn('omxplayer', ['-0', 'hdmi', 'rtmp://marcus.ethor.net:443/live/live' + stream_name]);
   res.redirect(301, '/');
 });
 
@@ -45,7 +45,7 @@ app.post('/play_twitch', function(req, res) {
 
   var stream_name = req.body.twitch_stream_name;
   currently_playing.set(stream_name);
-  player = spawn('livestreamer', ['twitch.tv/' + stream_name, 'best', '-np', '"vlc"']);
+  player = spawn('livestreamer', ['twitch.tv/' + stream_name, 'best', '-np', '"omxplayer -o hdmi"']);
   res.redirect(301, '/');
 });
 
