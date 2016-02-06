@@ -25,6 +25,7 @@ var currently_playing = {
 }
 
 app.set('view engine', 'jade');
+app.set('views', __dirname + '/views'); 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/play_ethor', function(req, res) {
