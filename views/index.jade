@@ -8,6 +8,8 @@ html
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    style: include ./autocomplete.css
+    script: include ./autocomplete.js
   body
     div(class='container')
       if currently_playing
@@ -37,3 +39,47 @@ html
       form(action='/stop_stream', method='post')
         div(class='form-group')
           button(class='btn btn-block text-danger'): i.fa.fa-2x.fa-stop
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/aja/0.4.1/aja.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.2.1/lodash.min.js')
+  script
+    :coffeescript
+      ac_template = _.template(
+        '<div class="autocomplete-suggestion" data-val="<%= stream_url %>">
+          <!-- <img src="<%- icon %>"/> -->
+          <span><%= stream %></span>
+          <span class="pull-right">
+            <small class="text-muted"><%= viewers %></small>
+            &nbsp;<i class="fa fa-lg fa-eye"></i>
+          </span>
+        </div>'
+      )
+      
+      twitch_ac = (term, response) -> 
+        aja()
+          .url('https://api.twitch.tv/kraken/search/streams')
+          .type('jsonp')
+          .data({ q: term, limit: 30 })
+          .on('success', (data) -> 
+            results = _.chain(data.streams)
+              .map((item) -> {
+                stream: item.channel.display_name
+                stream_url: item.channel.name
+                icon: item.preview.small
+                viewers: item.viewers
+              })
+              .orderBy(['viewers', 'stream'], ['desc', 'asc'])
+              .value()
+
+            response(results)
+          )
+          .go()
+        
+      
+      new autoComplete({
+        selector: 'input[name="twitch_stream_name"]'
+        source: _.debounce(twitch_ac, 500)
+        renderItem: ac_template
+      });
+
+      
+ 
