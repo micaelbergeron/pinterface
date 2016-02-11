@@ -1,0 +1,10 @@
+[Unit]
+Description=A simple twitch and RTMP HTTP interface.
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/pinterface
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
