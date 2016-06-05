@@ -48,7 +48,7 @@ app.post('/play_ethor', function(req, res) {
   var stream_name = req.body.ethor_stream_name;
   currently_playing.set(stream_name);
 
-  player = spawn('omxplayer', ['-o', 'hdmi', 'rtmp://marcus.ethor.net:443/live/live' + stream_name], {detached: true});
+  player = spawn('omxplayer', ['-o', 'hdmi', 'rtmp://stirling.ethor.net:443/live/live' + stream_name], {detached: true});
 
   player.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
