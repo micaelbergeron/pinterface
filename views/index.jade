@@ -1,4 +1,5 @@
 - list = ["Stupefiants", "Stargate", "Humour", "CameraCafe", "Futurama", "SouthPark", "Startrek", "BigBangTheory", "NCIS", "Kaamelott", "PetiteVie", "Bougon", "RadioEnfer", "House", "Simpson", "Comedy", "Comed2", "Comed3", "Comed4", "FamilyGuyAmericanDad", "BreakingBad", "Mentalist", "Bones", "LesEnfantsDeLaTele", "Documentaire1", "Documentaire2"]
+- twitch_qualities = ["best", "worst", "audio", "high", "medium", "low", "mobile"]
 
 html
   head
@@ -32,6 +33,10 @@ html
           i.fa.fa-2x.fa-twitch.pull-left
           h3(align='center') Twitch Streams
           input(class='form-control', input='text', name='twitch_stream_name')
+          br
+          select(class='form-control', name='twitch_quality')
+            each item, i in twitch_qualities
+              option(value=item) #{item}
           br
           button(class='btn btn-block text-success'): i.fa.fa-2x.fa-play
 

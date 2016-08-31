@@ -73,9 +73,11 @@ app.post('/play_twitch', function(req, res) {
   player_operation.kill();
 
   var stream_name = req.body.twitch_stream_name;
+  var quality = req.body.twitch_quality;
+
   currently_playing.set(stream_name);
 
-  var args = ['twitch.tv/' + stream_name, 'best', '-np', 'omxplayer -o hdmi'];
+  var args = ['twitch.tv/' + stream_name, quality, '-np', 'omxplayer -o hdmi'];
   console.log('starting the stream: ' + args.join(' '));
 
   player = spawn('livestreamer', args, {detached: true});
