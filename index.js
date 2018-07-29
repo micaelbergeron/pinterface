@@ -20,7 +20,7 @@ var currently_playing = {
   },
   unset: function() {
     if (!fs.existsSync(CURRENTLY_PLAYING_FILE)) return null;
-    fs.unlink(CURRENTLY_PLAYING_FILE);
+    fs.unlinkSync(CURRENTLY_PLAYING_FILE);
   }
 }
 
